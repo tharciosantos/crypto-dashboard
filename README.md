@@ -1,73 +1,93 @@
-# 📈 Crypto Dashboard - Next.js
-
-![Screenshot do Crypto Dashboard](./public/screenshot-crypto.png) 
-## 🌟 Visão Geral
-
-O Crypto Dashboard é uma aplicação web desenvolvida com Next.js (App Router) que consome a API pública da CoinGecko para exibir informações atualizadas sobre criptomoedas. O projeto demonstra a busca de dados de APIs externas, gerenciamento de estado no React e a criação de interfaces dinâmicas e responsivas com Tailwind CSS.
-
-**[➡️ Acesse a versão ao vivo aqui!](https://crypto-dashboard-five-sandy.vercel.app/)**
-
----
-
-## ✨ Funcionalidades Principais
-
-* **Lista Dinâmica:** Exibe as 10 principais criptomoedas por capitalização de mercado.
-* **Busca Instantânea:** Filtra a lista em tempo real conforme o usuário digita o nome ou símbolo da moeda.
-* **Página de Detalhes:** Rota dinâmica (`/coin/[id]`) que busca e exibe informações detalhadas sobre uma moeda específica (preço, capitalização, volume, descrição, etc.).
-* **Interface Responsiva:** Layout adaptado para diferentes tamanhos de tela.
-* **Tratamento de Loading/Erro:** Feedback visual claro para o usuário durante a busca de dados ou em caso de falha.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-* **Framework:** [Next.js](https://nextjs.org/) (App Router)
-* **Linguagem:** JavaScript
-* **Estilização:** [Tailwind CSS](https://tailwindcss.com/) (v3)
-* **Plugin Tailwind:** [@tailwindcss/typography](https://tailwindcss.com/docs/typography-plugin) (para estilizar HTML da descrição)
-* **Busca de Dados:** `fetch` API nativa
-* **API Externa:** [CoinGecko API](https://www.coingecko.com/pt/api/documentation) (Plano Gratuito)
-
-[![My Skills](https://skillicons.dev/icons?i=nextjs,react,tailwind,js)](https://skillicons.dev)
-
----
-
-## 📸 Screenshot
-
+# Crypto Dashboard
 
 ![Screenshot do Crypto Dashboard](./public/screenshot-crypto.png)
 
----
+Dashboard de criptomoedas construído com Next.js App Router. A aplicação consome a API publica da CoinGecko para listar os principais ativos do mercado e exibir uma pagina de detalhes com metricas relevantes.
 
-## 🚀 Como Rodar Localmente
+[Demo online](https://crypto-dashboard-five-sandy.vercel.app/)
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/tharcio09/crypto-dashboard.git](https://github.com/tharcio09/crypto-dashboard.git) # Substitua pela URL correta
-    cd crypto-dashboard
-    ```
+## Visao geral
 
-2.  **Instale as dependências:**
-    ```bash
-    npm install
-    ```
+O projeto foi criado para demonstrar integracao com API externa, renderizacao dinamica no Next.js e uma interface responsiva com Tailwind CSS. O fluxo principal e simples:
 
-3.  **Inicie o servidor de desenvolvimento:**
-    ```bash
-    npm run dev
-    ```
+- listar as 10 criptomoedas com maior market cap
+- permitir busca instantanea por nome ou simbolo
+- navegar para uma rota dinamica com detalhes da moeda selecionada
+- apresentar estados de carregamento, erro e lista vazia
 
-4.  Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
+## Funcionalidades
 
-*(Nota: O projeto utiliza a API pública da CoinGecko, que possui limites de taxa. Em desenvolvimento intensivo, a busca de dados pode falhar temporariamente.)*
+- Listagem das 10 principais criptomoedas em USD
+- Busca em tempo real por nome ou simbolo
+- Pagina de detalhes em `/coin/[id]`
+- Exibicao de preco atual, variacao em 24h, market cap, volume, maxima, minima e ranking
+- Descricao da moeda com prioridade para conteudo em portugues e fallback para ingles
+- Layout responsivo para desktop e mobile
 
----
+## Stack
 
-## 📫 Contato
+- `Next.js 15`
+- `React 19`
+- `Tailwind CSS 3`
+- `@tailwindcss/typography`
+- `CoinGecko API`
 
-**Tharcio Santos**
+## Estrutura do projeto
 
-* [LinkedIn](https://www.linkedin.com/in/tharcio-santos/)
-* [Email](mailto:tharciosantos09@gmail.com)
+```text
+.
+|-- public/
+|   `-- screenshot-crypto.png
+|-- src/
+|   `-- app/
+|       |-- coin/
+|       |   `-- [id]/
+|       |       `-- page.js
+|       |-- globals.css
+|       |-- layout.js
+|       `-- page.js
+|-- eslint.config.mjs
+|-- next.config.mjs
+|-- package.json
+`-- tailwind.config.js
+```
 
-*(Substitua pelos seus links)*
+## Como executar
+
+```bash
+git clone https://github.com/tharcio09/crypto-dashboard.git
+cd crypto-dashboard
+npm install
+npm run dev
+```
+
+Abra `http://localhost:3000`.
+
+## Scripts disponiveis
+
+- `npm run dev`: inicia o servidor de desenvolvimento
+- `npm run build`: gera a build de producao
+- `npm run start`: sobe a aplicacao em modo producao
+- `npm run lint`: executa o lint do projeto
+
+## Fonte de dados
+
+O projeto utiliza a API publica da CoinGecko:
+
+- endpoint de mercado para a listagem principal
+- endpoint individual por moeda para a pagina de detalhes
+
+Como a versao gratuita possui limite de requisicoes, falhas temporarias podem ocorrer em momentos de uso intenso.
+
+## Pontos de atencao
+
+- A busca e o carregamento de dados acontecem no cliente
+- O projeto depende da disponibilidade da API externa
+- Algumas descricoes podem vir apenas em ingles, dependendo da moeda
+
+## Autor
+
+Tharcio Santos
+
+- [LinkedIn](https://www.linkedin.com/in/tharcio-santos/)
+- [Email](mailto:tharciosantos09@gmail.com)
