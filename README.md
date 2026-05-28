@@ -55,7 +55,7 @@ O projeto foi criado para demonstrar integracao com API externa, renderizacao di
 ## Como executar
 
 ```bash
-git clone https://github.com/tharcio09/crypto-dashboard.git
+git clone https://github.com/tharciosantos/crypto-dashboard.git
 cd crypto-dashboard
 npm install
 npm run dev
