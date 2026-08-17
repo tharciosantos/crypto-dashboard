@@ -12,15 +12,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Crypto Dashboard - Cotações",
-  description: "Acompanhe as cotações das principais criptomoedas.",
+  title: "Crypto Dashboard - Cotações em Tempo Real",
+  description: "Acompanhe cotações, variações e métricas das principais criptomoedas do mercado.",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         {children}
       </body>

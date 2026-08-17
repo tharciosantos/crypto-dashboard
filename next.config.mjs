@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
-  reactCompiler: true,
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -9,7 +7,13 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'coin-images.coingecko.com',
         port: '',
-        pathname: '/coins/images/**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.coingecko.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },
