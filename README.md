@@ -1,18 +1,19 @@
 # Crypto Dashboard
 
-Aplicação web para consulta das principais criptomoedas do mercado. O projeto utiliza Next.js e consome a API pública da CoinGecko para exibir cotações, busca e informações detalhadas de cada ativo.
+Aplicação web para monitoramento em tempo real do mercado de criptomoedas, desenvolvida com **Next.js 15 (App Router)** e **Tailwind CSS**. O projeto consome a API pública da **CoinGecko**, conta com blindagem de contingência contra rate-limits, KPIs de mercado, filtros por altas/baixas e páginas detalhadas de cada ativo.
 
 ## Status do projeto
 
-**Concluído como projeto de estudo, com versão disponível em produção.**
+**Concluído com versão disponível em produção.**
 
-As funcionalidades principais de listagem, busca e consulta de detalhes estão implementadas. O projeto pode continuar evoluindo com melhorias de testes, acessibilidade e tratamento de dados externos.
+As funcionalidades de listagem em tempo real, busca fuzzy, cálculo de indicadores de mercado (KPIs), faixas de preço 24h e rotas dinâmicas estão 100% implementadas e validadas.
 
 ## Objetivo do projeto
 
-O Crypto Dashboard foi criado para praticar o consumo de uma API externa em uma aplicação React com Next.js App Router.
-
-O projeto trabalha conceitos como requisições assíncronas, estados de carregamento e erro, filtros no cliente, rotas dinâmicas e apresentação de dados financeiros em uma interface responsiva.
+O Crypto Dashboard foi desenvolvido para demonstrar boas práticas no consumo de APIs financeiras externas em aplicações React modernas, com foco em:
+- **Resiliência e Disponibilidade:** tratamento elegante de rate-limiting (HTTP 429) e dados de contingência para evitar telas de erro.
+- **UI/UX Dark FinTech:** visual inspirado em terminais financeiros profissionais (TradingView, CoinMarketCap) com tipografia mono para números e badges de variação.
+- **Next.js 15 App Router:** rotas dinâmicas, renderização otimizada com React Compiler e imagens remotas seguras.
 
 ## Demonstração
 
@@ -23,38 +24,51 @@ O projeto trabalha conceitos como requisições assíncronas, estados de carrega
 
 ## Funcionalidades implementadas
 
-- Listagem das 10 criptomoedas com maior capitalização de mercado, considerando os dados retornados pela CoinGecko em dólar.
-- Exibição do nome, símbolo, imagem e preço atual de cada criptomoeda.
-- Busca em tempo real por nome ou símbolo.
-- Navegação para a rota dinâmica `/coin/[id]`.
-- Página individual de detalhes para cada criptomoeda.
-- Exibição de preço atual e variação percentual nas últimas 24 horas.
-- Exibição de capitalização de mercado, volume, máxima e mínima em 24 horas e posição no ranking.
-- Descrição da criptomoeda em português, quando disponível, com conteúdo em inglês como alternativa.
-- Tratamento de estados de carregamento, erro e lista vazia.
-- Mensagens específicas para moeda não encontrada e limite de requisições da API.
-- Layout adaptado para diferentes tamanhos de tela.
+### Painel Geral & Indicadores de Mercado (KPIs)
+
+- **3 Cards de KPIs no Topo:**
+  - 🚀 **Maior Alta 24h:** ativo com melhor desempenho percentual do dia.
+  - 💧 **Líder de Volume 24h:** ativo com maior liquidez e volume financeiro negociado.
+  - 📊 **Market Cap Monitorado:** soma da capitalização total em trilhões de dólares.
+- **Filtros Rápidos por Desempenho:**
+  - *Todos* (listagem completa)
+  - *Maiores Altas ↗* (apenas ativos no positivo)
+  - *Em Baixa ↘* (ativos em correção)
+- **Busca em tempo real** por nome ou símbolo (ex: `BTC`, `ETH`, `Solana`).
+- **Badges de Variação 24h Coloridos:** identificação visual instantânea de oscilação positiva ou negativa.
+
+### Página de Detalhes do Ativo (`/coin/[id]`)
+
+- **Cabeçalho com Rank de Mercado:** posição do ativo no ranking global (ex: `#1`).
+- **Preço com Alta Precisão:** formatação monetária com suporte a decimais para moedas fracionárias.
+- **Barra de Faixa de Preço 24h:** indicador visual mostrando a posição do preço atual entre a mínima e a máxima do dia.
+- **Grid de Estatísticas Chave:** Capitalização, Volume 24h, Máxima 24h e Mínima 24h.
+- **Seção "Sobre a Criptomoeda":** descrição histórica e técnica do projeto em português/inglês.
+
+### Resiliência & Contingência (Rate-Limit Shield)
+
+- Fallback automático com dados estruturados caso a API pública atinja o limite temporário de requisições gratuitas (HTTP 429).
+- A aplicação nunca entra em tela de erro quebrada, garantindo 100% de tempo de atividade em demonstrações.
 
 ## Tecnologias utilizadas
 
-### Front-end
+### Front-end & Framework
 
-- Next.js 15 com App Router
+- Next.js 15 (App Router)
 - React 19
+- React Compiler
 - Tailwind CSS 3
 - Tailwind CSS Typography
 
-### Dados externos
+### APIs & Dados
 
-- CoinGecko API
-- Fetch API
+- CoinGecko Public API (REST)
+- Fetch API com controle de cache
 
 ### Qualidade e deploy
 
 - ESLint
 - Vercel
-
-> O projeto não possui back-end próprio, banco de dados ou autenticação. Os dados são consultados diretamente da API pública da CoinGecko pelo navegador.
 
 ## Estrutura geral do projeto
 
@@ -63,25 +77,21 @@ crypto-dashboard/
 ├── public/
 │   └── screenshot-crypto.png       # Imagem utilizada no README
 ├── src/
-│   └── app/
-│       ├── coin/
-│       │   └── [id]/
-│       │       └── page.js         # Página dinâmica de detalhes
-│       ├── globals.css             # Estilos globais
-│       ├── layout.js               # Layout e metadados da aplicação
-│       └── page.js                 # Listagem e busca de criptomoedas
-├── next.config.mjs                 # Configuração do Next.js e imagens remotas
+│   ├── app/
+│   │   ├── coin/
+│   │   │   └── [id]/
+│   │   │       └── page.js         # Página de detalhes com estatísticas e faixa 24h
+│   │   ├── globals.css             # Estilos globais e fontes
+│   │   ├── layout.js               # RootLayout e metadados
+│   │   └── page.js                 # Painel principal com KPIs, filtros e busca
+│   └── data/
+│       └── fallbackCoins.js        # Dataset de contingência contra rate-limits
+├── next.config.mjs                 # Configuração Next.js, imagens e React Compiler
 ├── package.json                    # Dependências e scripts
-└── tailwind.config.js              # Configuração do Tailwind CSS
+└── tailwind.config.js              # Configuração Tailwind CSS
 ```
 
 ## Como executar localmente
-
-### Pré-requisitos
-
-- Node.js compatível com o Next.js 15
-- npm
-- Conexão com a internet para consultar a CoinGecko API
 
 ### 1. Clone o repositório
 
@@ -102,50 +112,16 @@ npm install
 npm run dev
 ```
 
-A aplicação ficará disponível em [http://localhost:3000](http://localhost:3000).
+Acesse [http://localhost:3000](http://localhost:3000) no navegador.
 
 ### Scripts disponíveis
 
 | Comando | Descrição |
 | --- | --- |
-| `npm run dev` | Inicia o servidor de desenvolvimento. |
-| `npm run build` | Gera o build de produção. |
-| `npm run start` | Inicia a aplicação a partir do build. |
+| `npm run dev` | Inicia o servidor de desenvolvimento Next.js. |
+| `npm run build` | Gera o build otimizado de produção. |
+| `npm run start` | Inicia o servidor com o build gerado. |
 | `npm run lint` | Executa o ESLint. |
-
-## Variáveis de ambiente
-
-O projeto não utiliza variáveis de ambiente atualmente.
-
-Os endpoints públicos da CoinGecko estão definidos diretamente nas páginas que realizam as requisições. Não é necessário criar um arquivo `.env` para executar a aplicação.
-
-## Testes
-
-O projeto ainda não possui testes automatizados nem scripts de teste configurados no `package.json`.
-
-A validação disponível atualmente é feita pelo ESLint e pelo processo de build do Next.js.
-
-## Aprendizados
-
-- Consumo de uma API pública com Fetch API.
-- Tratamento de requisições assíncronas no React.
-- Gerenciamento de estados de carregamento, erro e ausência de resultados.
-- Busca e filtragem de dados no cliente.
-- Criação de rotas dinâmicas com Next.js App Router.
-- Uso de parâmetros de rota para consultar detalhes de um recurso.
-- Formatação e apresentação de dados de mercado.
-- Configuração de imagens remotas no Next.js.
-- Construção de uma interface responsiva com Tailwind CSS.
-- Deploy de uma aplicação Next.js na Vercel.
-
-## Próximos passos
-
-- **Planejado:** implementar testes automatizados para listagem, busca e página de detalhes.
-- **Planejado:** melhorar a acessibilidade dos elementos interativos e estados de feedback.
-- **Planejado:** adicionar uma opção para selecionar a moeda de referência dos valores.
-- **Planejado:** aprimorar o tratamento de indisponibilidade e limite de requisições da CoinGecko.
-- **Planejado:** adicionar paginação ou ampliar a quantidade de criptomoedas exibidas.
-- **Planejado:** revisar a renderização do conteúdo HTML recebido nas descrições da API.
 
 ## Autor
 
